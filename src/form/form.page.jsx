@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import '../style/form.scss';
+import '../style/form.css';
 
 class FormPage extends React.Component {
 
@@ -39,27 +38,35 @@ class FormPage extends React.Component {
   }
 
   render() {
-    const title = "hello";
     return (
-      <form onSubmit={this.handleSubmit} className="form-page">
-        <label>
-          Nom:
-          <input
-            name="nom"
-            type="text"
-            value={this.state.nom}
-            onChange={this.handleInputChange}/>
-        </label>
-        <br />
-        <label>
-          description:
-          <input
-            name="description"
-            type="text"
-            value={this.state.description}
-            onChange={this.handleInputChange}/>
-        </label>
-        <button onClick={this.handleClick}>CLICK</button>
+      <form onSubmit={this.handleSubmit}>
+        <div>
+          <div className="form-group">
+            <label>
+              Nom:
+              <input
+                className="form-control"
+                name="nom"
+                type="text"
+                value={this.state.nom}
+                onChange={this.handleInputChange}/>
+            </label>
+          </div>
+
+            <br />
+          <div className="form-group">
+            <label>
+              description:
+              <input
+                className="form-control"
+                name="description"
+                type="text"
+                value={this.state.description}
+                onChange={this.handleInputChange}/>
+            </label>
+          </div>
+          <button onClick={this.handleClick} className="btn btn-primary">CLICK</button>
+        </div>
       </form>
     );
   }
