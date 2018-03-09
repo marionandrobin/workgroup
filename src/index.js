@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import FormPage from './form/form.page.jsx';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 

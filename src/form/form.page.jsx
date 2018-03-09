@@ -1,5 +1,42 @@
 import React from 'react';
+import axios from 'axios';
 import '../style/form.css';
+
+class GenericInput extends React.Component {
+  constructor(props) {
+      super(props);
+      this.state = {inputValue: this.props.initialNom};
+
+      this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    this.setState({inputValue:event.target.value});
+    this.props.callbackParent(event.target.value);
+  }
+
+  componentDidMount() {
+    axios.get(`localhost:3000/hello`)
+      .then(res => {
+        const posts = res.data.data.children.map(obj => obj.data);
+        this.setState({ posts });
+      });
+  }
+
+render() {
+    return (
+      <div>
+        <input
+          className="form-control"
+          name="nom"
+          type="text"
+          value={this.state.inputValue}
+          onChange={this.handleInputChange}/>
+      </div>
+    );
+  }
+  
+}
 
 class FormPage extends React.Component {
 
@@ -8,6 +45,7 @@ class FormPage extends React.Component {
       this.state = {nom: "", description: ""};
       this.handleInputChange = this.handleInputChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.onChildChanged = this.onChildChanged.bind(this);
   }
 
   handleInputChange(event) {
@@ -37,6 +75,11 @@ class FormPage extends React.Component {
     console.log(event.target)
   }
 
+  onChildChanged(newState) {
+    console.log("newState", newState)
+    this.setState({ checked: newState });
+  }
+
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
@@ -44,12 +87,7 @@ class FormPage extends React.Component {
           <div className="form-group">
             <label>
               Nom:
-              <input
-                className="form-control"
-                name="nom"
-                type="text"
-                value={this.state.nom}
-                onChange={this.handleInputChange}/>
+              <GenericInput callbackParent={this.onChildChanged} initialNom={this.state.nom}/>
             </label>
           </div>
 
