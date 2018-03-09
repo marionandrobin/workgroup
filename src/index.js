@@ -3,119 +3,130 @@ import ReactDOM from 'react-dom';
 import FormPage from './form/form.page.jsx';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
+
+class Label extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value_label: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(event) {
+    this.setState({
+      value_label: event.target.value
+    });
+    this.props.callbackParent(event.target.value);
+  }
+  render() {
+    return (
+      <div><label>
+          {this.props.name}:
+          <input type="text" value={this.state.value_label} onChange={this.handleChange} />
+        </label>
+      </div>
+    );
+  }
+}
+
+class Select extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value_select: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({
+      value_select: event.target.value
+    });
+    this.props.callbackParent(event.target.value);
+  }
 
 
-// class ButtonDisplaysModal extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {modalMessage: props.modalMessage};
-//     this.handleClick = this.handleClick.bind(this);
-//     this.modifyMessage = this.modifyMessage.bind(this);
-//   }
+  render() {
+    return (
+      <div>
+        <label>
+          {this.props.name}:
+          <select value={this.state.value_select} onChange={this.handleChange} >
+            <option value="theme1">Theme1</option>
+            <option value="theme2">Theme2</option>
+            <option value="theme3">Theme3</option>
+            <option value="theme4">Theme4</option>
+          </select>
+        </label>
+      </div>
+    );
+  }
+}
 
-//   handleClick(event) {
-//     const target = event.target;
-//     console.log("event", event)
-//     console.log("target", target)
-//     console.log("this", this)
-//     event.preventDefault();
-//     window.alert(this.state.modalMessage);
-//   }
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title : '',
+      price : '',
+      min_value : '',
+      max_value : '',
+      desc : '',
+      theme : '',
+      test123:''
+    };
 
-//   modifyMessage(event) {
-//     console.log("event", event)
-//     const target = event.target;
-//     console.log("target", target)
-//     const value = target.value;
-//     console.log("value", value)
-//     this.setState({modalMessage: value},
-//       (state)=> console.log(this.state.modalMessage));
-//     console.log(this.state.modalMessage)
-//   }
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChildChanged = this.onChildChanged.bind(this);
+  }
 
-//   render() {
-//     return (
-//       <div>
-//         <label>
-//             modalMessage:
-//             <input
-//               name="modalMessage"
-//               type="text"
-//               value={this.state.modalMessage}
-//               onChange={this.modifyMessage}/>
-//           </label>
-//         <button onClick={this.handleClick}>{this.props.button}</button>
-//       </div>
-//     );
-//   }
-// }
+  componentDidMount() {
+
+    axios.get("/test")
+      .then(res => {
+        console.log('azertyu', res);
+        console.log('heeeyyy', res.data);
+        // const posts = res.data.data.children.map(obj => obj.data);
+        console.log(this.state)
+        this.setState({ test123: res.data }, function(){
+          console.log(this.state)
+        });
+      })
+      .catch(error => console.log(error));
+  }
+
+  onChildChanged(newState, inputName) { 
+      this.setState({
+        [inputName]: newState
+      });
+    }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log('submit');
+    console.log(this.state);
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+         <Label callbackParent={(newState) => this.onChildChanged(newState, "title") } name="Title" /> 
+         <Label callbackParent={(newState) => this.onChildChanged(newState, "price") } name="Price" />
+         <Label callbackParent={(newState) => this.onChildChanged(newState, "min_value") } name="Min number of people" />
+         <Label callbackParent={(newState) => this.onChildChanged(newState, "max_value") } name="Max number of people" />
+         <Label callbackParent={(newState) => this.onChildChanged(newState, "desc") } name="Description" />
+         <Select callbackParent={(newState) => this.onChildChanged(newState, "theme") } name="Theme"/>
+         <input type="text" value={this.state.test123}/>
+         <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
 
 
-// class SimpleForm extends React.Component {
-
-//   constructor(props) {
-//       super(props);
-//       this.state = {nom: "", description: ""};
-//       this.handleInputChange = this.handleInputChange.bind(this);
-//       this.handleSubmit = this.handleSubmit.bind(this);
-//   }
-
-//   handleInputChange(event) {
-//     const target = event.target;
-//     const value = target.type === 'checkbox' ? target.checked : target.value;
-//     const name = target.name;
-
-//     this.setState({
-//       [name]: value
-//     }, (state) => {
-//       console.log(state)
-//       console.log(this.state.description)
-//     });
-//   }
-
-//   handleSubmit(event){
-//     event.preventDefault();
-//     console.log("target", event.target);
-//     console.log("description", event.target.description.value);
-//   }
-
-//   handleClick(event) {
-//     const target = event.target;
-//     const value = target.type === 'checkbox' ? target.checked : target.value;
-//     const name = target.name;
-//     console.log('123', target, name, value)
-//     console.log(event.target)
-//   }
-
-//   render() {
-//     const title = "hello";
-//     return (
-//       <form onSubmit={this.handleSubmit}>
-//         <label>
-//           Nom:
-//           <input
-//             name="nom"
-//             type="text"
-//             value={this.state.nom}
-//             onChange={this.handleInputChange}/>
-//         </label>
-//         <br />
-//         <label>
-//           description:
-//           <input
-//             name="description"
-//             type="text"
-//             value={this.state.description}
-//             onChange={this.handleInputChange}/>
-//         </label>
-//         <button onClick={this.handleClick}>CLICK</button>
-//         <ButtonDisplaysModal modalMessage="heeyy" button="gvhb" />
-//       </form>
-//     );
-//   }
-// }
 
 ReactDOM.render(
-  <FormPage></FormPage>,
+  <NameForm />,
   document.getElementById('root')
 );
