@@ -1,17 +1,11 @@
-const express = require('express')
-const app = express()
+var express = require('express')
+var app = express()
 
 var cors = require('cors');
 app.use(cors());
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(function (req, res, next) {
 
@@ -28,8 +22,8 @@ app.use(function (req, res, next) {
     // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true);
 
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-      next();
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 
     // Pass to next layer of middleware
     // next();
@@ -38,11 +32,9 @@ app.use(function (req, res, next) {
 app.use(cors({origin: 'http://localhost:8888'}));
 
 app.get('/test', function (req, res) {
-    console.log(123123);
-  // res.send('Hello World!');
   res.json({'text':'hello'});
 })
 
 app.listen(8888, function () {
   console.log('Example app listening on port 8888!')
-})
+});

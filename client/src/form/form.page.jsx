@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import '../style/form.scss';
+// import '../style/form.scss';
 
 class GenericInput extends React.Component {
   constructor(props) {
