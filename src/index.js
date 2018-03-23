@@ -29,10 +29,10 @@ class Label extends React.Component {
   }
 }
 
-class Select extends React.Component {
+class ThemeSelect extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value_select: ''};
+    this.state = {value_select: '', option_list: ''};
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -41,20 +41,22 @@ class Select extends React.Component {
     this.setState({
       value_select: event.target.value
     });
+
     this.props.callbackParent(event.target.value);
   }
 
-
   render() {
+    const toto = ['test'];
+    //console.log("tetetee",this.props.option_list);
+    var listOptions = toto.map(function(number, index){
+      return <option value={number} key={index}>{number}</option>
+    });
     return (
       <div>
         <label>
           {this.props.name}:
           <select value={this.state.value_select} onChange={this.handleChange} >
-            <option value="theme1">Theme1</option>
-            <option value="theme2">Theme2</option>
-            <option value="theme3">Theme3</option>
-            <option value="theme4">Theme4</option>
+            {listOptions}
           </select>
         </label>
       </div>
@@ -72,27 +74,25 @@ class NameForm extends React.Component {
       max_value : '',
       desc : '',
       theme : '',
-      test123:''
+      options_list : ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChildChanged = this.onChildChanged.bind(this);
-  }
 
-  componentDidMount() {
-
-    axios.get("/test")
+    axios.get('/listoptions')
       .then(res => {
-        console.log('azertyu', res);
-        console.log('heeeyyy', res.data);
-        // const posts = res.data.data.children.map(obj => obj.data);
-        console.log(this.state)
-        this.setState({ test123: res.data }, function(){
-          console.log(this.state)
+        console.log('response');
+        console.log(res.data.list);
+        this.setState({
+          options_list: res.data.list
         });
       })
-      .catch(error => console.log(error));
+      .catch(error =>{
+        console.log(error);
+      });
   }
+
 
   onChildChanged(newState, inputName) { 
       this.setState({
@@ -104,6 +104,14 @@ class NameForm extends React.Component {
     event.preventDefault();
     console.log('submit');
     console.log(this.state);
+
+
+    axios.post('/submit', this.state)
+      .then(res => {
+        console.log(res)
+        return res;
+      });
+
   }
 
   render() {
@@ -114,8 +122,7 @@ class NameForm extends React.Component {
          <Label callbackParent={(newState) => this.onChildChanged(newState, "min_value") } name="Min number of people" />
          <Label callbackParent={(newState) => this.onChildChanged(newState, "max_value") } name="Max number of people" />
          <Label callbackParent={(newState) => this.onChildChanged(newState, "desc") } name="Description" />
-         <Select callbackParent={(newState) => this.onChildChanged(newState, "theme") } name="Theme"/>
-         <input type="text" value={this.state.test123}/>
+         <ThemeSelect callbackParent={(newState) => this.onChildChanged(newState, "theme") } name="Theme" option_list={this.state.options_list}/>
          <input type="submit" value="Submit" />
       </form>
     );
