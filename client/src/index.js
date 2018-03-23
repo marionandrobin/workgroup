@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FormPage from './form/form.page.jsx';
+// import FormPage from './form/form.page.jsx';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import AppBar from 'material-ui/AppBar';
+import {deepPurpleA200} from 'material-ui/styles/colors';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import axios from 'axios';
@@ -22,14 +26,16 @@ class Label extends React.Component {
   }
   render() {
     return (
-      <div><label>
+      <div>
+        <label>
           {this.props.name}:
-          <input type="text" value={this.state.value_label} onChange={this.handleChange} />
+          <input type='text' value={this.state.value_label} onChange={this.handleChange}/>
         </label>
       </div>
     );
   }
 }
+
 
 class Select extends React.Component {
   constructor(props) {
@@ -124,9 +130,20 @@ class NameForm extends React.Component {
   }
 }
 
+const muiTheme = getMuiTheme({
+  palette: {
+    textColor: deepPurpleA200,
+  },
+  appBar: {
+    height: 50,
+  },
+});
 
 
 ReactDOM.render(
-  <NameForm />,
+  <MuiThemeProvider muiTheme={muiTheme}>
+    <NameForm />
+    <AppBar title="My AppBar" />
+  </MuiThemeProvider>,
   document.getElementById('root')
 );
