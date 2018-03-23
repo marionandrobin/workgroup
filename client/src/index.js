@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import FormPage from './form/form.page.jsx';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import AppBar from 'material-ui/AppBar';
-import {deepPurpleA200} from 'material-ui/styles/colors';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import FormPage from './form/form.page.jsx';
+import FormTestPage from './form/form-test.page.jsx';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import axios from 'axios';
@@ -112,8 +110,6 @@ class NameForm extends React.Component {
     event.preventDefault();
     console.log('submit');
     console.log(this.state);
-
-
     axios.post('/submit', this.state)
       .then(res => {
         console.log(res)
@@ -136,21 +132,54 @@ class NameForm extends React.Component {
     );
   }
 }
+class TabLink extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-const muiTheme = getMuiTheme({
-  palette: {
-    textColor: deepPurpleA200,
-  },
-  appBar: {
-    height: 50,
-  },
-});
+
+  render() {
+
+    const OldSchoolMenuLink = ({ label, to, activeOnlyWhenExact }) => (
+      <Route
+        path={to}
+        exact={activeOnlyWhenExact}
+        children={({ match }) => (
+          <div className={match ? "nav-link active" : "nav-link"}>
+            <Link to={to}>{label}</Link>
+          </div>
+        )}
+      />
+    );
+
+    return (
+      <div className="formtest">
+        <ul className="nav">
+          <li className="nav-item">
+            <OldSchoolMenuLink activeOnlyWhenExact={true} to="/" label="FormPage" />
+          </li>
+          <li className="nav-item">
+            <OldSchoolMenuLink to="/about" label="FormTestPage" />
+          </li>
+        </ul>
+        <hr />
+        <Route exact path="/" component={FormPage} />
+        <Route path="/about" component={FormTestPage} />
+      </div>
+    );
+  }
+}
+
 
 
 ReactDOM.render(
-  <MuiThemeProvider muiTheme={muiTheme}>
-    <NameForm />
-    <AppBar title="My AppBar" />
-  </MuiThemeProvider>,
+  <Router>
+    <div>
+      <TabLink />
+      <FormPage />
+      <NameForm />
+    </div>
+  </Router>,
   document.getElementById('root')
 );
