@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 
 class GenericInput extends React.Component {
   constructor(props) {
@@ -15,14 +15,14 @@ class GenericInput extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`localhost:3000/hello`)
-      .then(res => {
-        const posts = res.data.data.children.map(obj => obj.data);
-        this.setState({ posts });
-      });
+    // axios.get(`localhost:3000/hello`)
+    //   .then(res => {
+    //     const posts = res.data.data.children.map(obj => obj.data);
+    //     this.setState({ posts });
+    //   });
   }
 
-render() {
+  render() {
     return (
       <div>
         <input
