@@ -14,16 +14,8 @@
     "react-scripts": "1.1.1"
   },
   "scripts": {
-    "dev": "node webpack/development.js",
-    "build": "react-scripts build",
-    "serv": "webpack-dev-server --open",
     "start": "webpack-dev-server --mode development --open",
-    "start-webpack": "webpack --mode development",
-    "build-webpack": "webpack --mode production",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "starttest": "webpack --mode development",
-    "buildtest": "webpack --mode production"
+    "json-server": "json-server --watch db.json --port 3001"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
