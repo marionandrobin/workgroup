@@ -48,3 +48,12 @@ ol, ul {
 .game-info {
   margin-left: 20px;
 }
+
+.nav-link a {
+  transition: font-size 2s;
+}
+
+a:hover {
+  text-decoration: none;
+  font-size: 25px;
+}

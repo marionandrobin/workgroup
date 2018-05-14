@@ -3,21 +3,50 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^4.0.0",
     "axios": "^0.18.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "bootstrap": "^4.0.0",
+    "json-server": "^0.12.2",
+    "material-ui": "^0.20.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "node webpack/development.js",
     "build": "react-scripts build",
+    "serv": "webpack-dev-server --open",
+    "start": "webpack-dev-server --mode development --open",
+    "start-webpack": "webpack --mode development",
+    "build-webpack": "webpack --mode production",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "starttest": "webpack --mode development",
+    "buildtest": "webpack --mode production"
   },
   "devDependencies": {
-    "node-sass": "^4.7.2",
-    "sass-loader": "^6.0.6"
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.0",
+    "node-sass": "^4.9.0",
+    "progress-bar-webpack-plugin": "^1.11.0",
+    "prop-types": "^15.6.1",
+    "sass-loader": "^6.0.7",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.1.2",
+    "webpack-dev-server": "^3.1.3",
+    "webpack-merge": "^4.1.2"
   },
-  "proxy": "http://localhost:8888"
+  "proxy": "http://localhost:8888",
+  "main": "server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
