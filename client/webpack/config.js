@@ -1,5 +1,5 @@
 module.exports = {
-  entryHTML: 'index.html',
+  entryHTML: 'src/index.html',
   entryFile: 'src/index.tsx',
   assetsDir: 'assets',
   outputDir: 'dist',
