@@ -1,6 +1,7 @@
 const express = require('express')
 var bodyParser = require('body-parser')
 var cors = require('cors');
+var AWS = require("aws-sdk");
 
 const app = express()
 
@@ -35,7 +36,32 @@ app.use(function (req, res, next) {
 
 app.use(cors({origin: 'http://localhost:8888'}));
 
+AWS.config.update({
+  region: "us-east-1",
+  endpoint: "http://localhost:8888"
+});
+
+var docClient = new AWS.DynamoDB.DocumentClient()
+
 app.get('/test', function (req, res) {
+
+  var table = "Theme";
+  var id = 1;
+
+  var params = {
+      TableName: table,
+      Key:{
+          "theme_id": id
+      }
+  };
+
+  docClient.get(params, function(err, data) {
+      if (err) {
+          console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+      } else {
+          console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+      }
+  });
   res.json({'text':'hello'});
 })
 
