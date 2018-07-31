@@ -30,7 +30,7 @@ class ListOfEntriesPage extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`http://localhost:3001/entries`)
+    axios.get(`http://localhost:8888/test`)
       .then(res => {
         this.setState({ 
           "entries": res.data,
@@ -39,8 +39,8 @@ class ListOfEntriesPage extends React.Component {
   }
 
   render() {
-    const listItems = this.state.entries.map((entry) =>
-      <EntryDisplayComponent key={entry.key} entry={entry} />
+    const listItems = this.state.entries.map((entry, index) =>
+      <EntryDisplayComponent key={index} entry={entry} />
     );
     return <ul>{listItems}</ul>;
   }

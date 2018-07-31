@@ -6,8 +6,6 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './styles/appStyles.scss';
 import axios from 'axios';
 
-axios.defaults.withCredentials = true;
-
 ReactDOM.render(
   <Router>
     <div>

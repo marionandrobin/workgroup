@@ -1,7 +1,6 @@
 const express = require('express')
 var bodyParser = require('body-parser')
 var cors = require('cors');
-var AWS = require("aws-sdk");
 
 const app = express()
 
@@ -15,17 +14,17 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', '*');
 
     // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Methods', '*');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
+    // res.setHeader('Access-Control-Allow-Credentials', true);
 
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -36,33 +35,13 @@ app.use(function (req, res, next) {
 
 app.use(cors({origin: 'http://localhost:8888'}));
 
-AWS.config.update({
-  region: "us-east-1",
-  endpoint: "http://localhost:8888"
-});
-
-var docClient = new AWS.DynamoDB.DocumentClient()
-
 app.get('/test', function (req, res) {
-
-  var table = "Theme";
-  var id = 1;
-
-  var params = {
-      TableName: table,
-      Key:{
-          "theme_id": id
-      }
-  };
-
-  docClient.get(params, function(err, data) {
-      if (err) {
-          console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-      } else {
-          console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-      }
-  });
-  res.json({'text':'hello'});
+  const text = [
+    {subject: 'hello', activity: 'yoga'},
+    {subject: 'erfd', activity: 'running'},
+    {subject: 'trgf', activity: 'biking'},
+  ]
+  res.json(text);
 })
 
 app.get('/applePrice', function (req, res) {
